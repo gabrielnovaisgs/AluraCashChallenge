@@ -65,6 +65,12 @@ Pegando informações através dos metadados do information_schema
 |---|
 | 34489 |
 
+* Varificando IDs repitidos;
+
+| person_id | COUNT(*) |
+|---|---|
+|   | 4 |
+
 * % de vazios ou nulos
 
 | percent_person_id | percent_person_age | percent_person_income | percent_person_home_ownership | percent_person_emp_length |
@@ -78,6 +84,10 @@ Pegando informações através dos metadados do information_schema
 | numero_total_emprestimos |
 |---|
 | 34489 |
+
+* Varificando IDs repitidos;
+Número vazio
+
 
 * % de vazios ou nulos
 
@@ -93,6 +103,8 @@ Pegando informações através dos metadados do information_schema
 |---|
 | 34489 |
 
+* Varificando IDs repitidos;
+Número vazio
 
 * % de vazios ou nulos
 
@@ -106,8 +118,24 @@ Pegando informações através dos metadados do information_schema
 |---|
 | 14952 |
 
+* Varificando IDs repitidos;
+Número vazio
+
 * numero de vazios
 
 | cb_id_nulos_e_vazios | person_id_default_on_file_nulos_e_vazios | loan_id_nulos_e_vazios |
 |---|---|---|
 | 0 | 0 | 0 |
+
+# Tratamento dos dados
+
+* Nas colunas de texto alterar os valores nulos para ''
+    * dados_mutuarios: person_home_ownership, person_id;
+    * historicos_banco: cb_person_default_on_file;
+
+* Nas colunas numéricas foram deixadas em Null para serem tradadas posteriormente 
+
+* Removida as 4 colunas vazias da tabela dados_mutuarios
+
+# Unir as tabelas de acordo com os IDs traduzir os dados e exportar para CSV
+O arquivo exportado pode ser encontrado em [dados.csv]
