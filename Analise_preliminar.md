@@ -157,3 +157,43 @@ FROM emprestimos;
 | percent_loan_id | percent_loan_intent | percent_loan_grade | percent_loan_int_rate | percent_loan_status | percent_loan_percent_income |
 |---|---|---|---|---|---|
 | 0.0000 | 0.9046 | 0.8988 | 10.5164 | 0.9945 | 0.9162 |
+
+### historico_banco 
+
+* Numero total de colunas
+
+```sql
+SET @total_de_historicos := (SELECT COUNT(*) FROM historicos_banco);
+SELECT @total_de_historicos as numero_total_historicos;
+```
+| numero_total_historicos |
+|---|
+| 34489 |
+
+, , 
+* Numero de vazios ou nulos
+``` sql
+SELECT 
+SUM(ISNULL(cb_id) +IF(cb_id LIKE '', 1, 0) ) as cb_id_nulos_e_vazios,
+SUM(ISNULL(cb_person_default_on_file) +IF(cb_person_default_on_file LIKE '', 1, 0) ) as cb_person_default_on_file_nulos_e_vazios,
+SUM(ISNULL(cb_person_cred_hist_length) +IF(cb_person_cred_hist_length LIKE '', 1, 0) ) as cb_person_cred_hist_length_nulos_e_vazios
+ FROM historicos_banco;
+```
+
+| cb_id_nulos_e_vazios | cb_person_default_on_file_nulos_e_vazios | cb_person_cred_hist_length_nulos_e_vazios |
+|---|---|---|
+| 0 | 367 | 1 |
+
+
+
+* % de vazios ou nulos
+``` sql
+SELECT 
+(SUM(ISNULL(cb_id) +IF(cb_id LIKE '', 1, 0) ) / @total_de_historicos)*100 as percent_cb_id,
+(SUM(ISNULL(cb_person_default_on_file) +IF(cb_person_default_on_file LIKE '', 1, 0) ) / @total_de_historicos)*100 as percent_cb_person_default_on_file,
+(SUM(ISNULL(cb_person_cred_hist_length) +IF(cb_person_cred_hist_length LIKE '', 1, 0) ) / @total_de_historicos)*100 as percent_cb_person_cred_hist_length
+ FROM historicos_banco;
+```
+| percent_cb_id_nulos| percent_cb_person_default_on_file_nulos| percent_cb_person_cred_hist_length_nulos|
+|---|---|---|
+| 0.0000 | 1.0641 | 0.0029 |
