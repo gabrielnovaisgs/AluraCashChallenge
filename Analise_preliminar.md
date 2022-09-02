@@ -2,8 +2,10 @@
 
 ## Entender quais informações o conjunto de dados possui
 O banco de dados é composto por 4 tabelas [descritas aqui](https://github.com/Mirlaa/Challenge-Data-Science-1ed/blob/main/Dados/README.md), onde temos acesso:
- 
-`SHOW TABLES;`
+
+```sql 
+SHOW TABLES;
+```
 
 | Tables_in_analise_risco |
 |-------------------------|
@@ -21,7 +23,9 @@ O banco de dados é composto por 4 tabelas [descritas aqui](https://github.com/M
 ## Analisar quais os tipos de dados
 Pegando informações através dos metadados do information_schema
 
-`SELECT COLUMN_NAME AS Nome_da_coluna, DATA_TYPE AS tipo_de_dados FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'analise_risco' AND TABLE_NAME = 'dados_mutuarios';`
+```sql 
+SELECT COLUMN_NAME AS Nome_da_coluna, DATA_TYPE AS tipo_de_dados FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'analise_risco' AND TABLE_NAME = 'dados_mutuarios';
+```
 
 | Nome_da_coluna             | tipo_de_dados |
 |----------------------------|---------------|
@@ -31,7 +35,9 @@ Pegando informações através dos metadados do information_schema
 | person_id                  | varchar       |
 | person_income              | int           |
 
-`SELECT COLUMN_NAME AS Nome_da_coluna, DATA_TYPE AS tipo_de_dados FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'analise_risco' AND TABLE_NAME = 'emprestimos';`
+```sql
+SELECT COLUMN_NAME AS Nome_da_coluna, DATA_TYPE AS tipo_de_dados FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'analise_risco' AND TABLE_NAME = 'emprestimos';
+```
 
 | Nome_da_coluna             | tipo_de_dados |
 |----------------------------|---------------|
@@ -43,7 +49,9 @@ Pegando informações através dos metadados do information_schema
 | loan_percent_income        | double        |
 | loan_status                | int           |
 
-`SELECT COLUMN_NAME AS Nome_da_coluna, DATA_TYPE AS tipo_de_dados FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'analise_risco' AND TABLE_NAME = 'historicos_banco';`
+```sql
+SELECT COLUMN_NAME AS Nome_da_coluna, DATA_TYPE AS tipo_de_dados FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'analise_risco' AND TABLE_NAME = 'historicos_banco';
+```
 
 | Nome_da_coluna             | tipo_de_dados |
 |----------------------------|---------------|
@@ -51,8 +59,9 @@ Pegando informações através dos metadados do information_schema
 | cb_person_cred_hist_length | int           |
 | cb_person_default_on_file  | varchar       |
 
-
-`SELECT COLUMN_NAME AS Nome_da_coluna, DATA_TYPE AS tipo_de_dados FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'analise_risco' AND TABLE_NAME = 'id';`
+```sql
+SELECT COLUMN_NAME AS Nome_da_coluna, DATA_TYPE AS tipo_de_dados FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'analise_risco' AND TABLE_NAME = 'id';
+```
 
 | Nome_da_coluna             | tipo_de_dados |
 |----------------------------|---------------|
@@ -60,6 +69,25 @@ Pegando informações através dos metadados do information_schema
 | loan_id                    | text          |
 | person_id                  | text          |
 
+## Verificar quais são as inconsistências nos dados
 
+Primeiro vou verificar os dados_mutuarios 
+* Numero de vazios ou nulos
+
+```sql
+ SELECT 
+    SUM(ISNULL(person_id) +IF(person_id='', 1, 0) ) as person_id_nulos_e_vazios,
+    SUM(ISNULL(person_age) +IF(person_age='', 1, 0) ) as person_age_nulos_e_vazios,
+    SUM(ISNULL(person_income) +IF(person_income='', 1, 0) ) as person_income_nulos_e_vazios,
+    SUM(ISNULL(person_home_ownership) +IF(person_home_ownership='', 1, 0) ) as  person_home_ownership_nulos_e_vazios,
+    SUM(ISNULL(person_emp_length) +IF(person_emp_length='', 1, 0) ) asperson_emp_length_nulos_e_vazios
+FROM dados_mutuarios;
+```
+
+| person_id_nulos_e_vazios | person_age_nulos_e_vazios | person_income_nulos_e_vazios |person_home_ownership_nulos_e_vazios | asperson_emp_length_nulos_e_vazios |
+|---|---|---|---|---|
+| 4 | 321 | 336 | 331 | 5571 |
+
+* Numero de nulos ou vazios para cada tabela
 
 
