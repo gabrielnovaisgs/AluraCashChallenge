@@ -85,48 +85,75 @@ SELECT @total_de_clientes as numero_total_clientes;
 
 ```sql
  SELECT 
-    SUM(ISNULL(person_id) +IF(person_id='', 1, 0) ) as person_id_nulos_e_vazios,
-    SUM(ISNULL(person_age) +IF(person_age='', 1, 0) ) as person_age_nulos_e_vazios,
-    SUM(ISNULL(person_income) +IF(person_income='', 1, 0) ) as person_income_nulos_e_vazios,
-    SUM(ISNULL(person_home_ownership) +IF(person_home_ownership='', 1, 0) ) as  person_home_ownership_nulos_e_vazios,
-    SUM(ISNULL(person_emp_length) +IF(person_emp_length='', 1, 0) ) asperson_emp_length_nulos_e_vazios
+    SUM(ISNULL(person_id) +IF(person_id LIKE '', 1, 0) ) as person_id_nulos_e_vazios,
+    SUM(ISNULL(person_age) +IF(person_age LIKE '', 1, 0) ) as person_age_nulos_e_vazios,
+    SUM(ISNULL(person_income) +IF(person_income LIKE '', 1, 0) ) as person_income_nulos_e_vazios,
+    SUM(ISNULL(person_home_ownership) +IF(person_home_ownership LIKE '', 1, 0) ) as  person_home_ownership_nulos_e_vazios,
+    SUM(ISNULL(person_emp_length) +IF(person_emp_length LIKE '', 1, 0) ) as person_emp_length_nulos_e_vazios
 FROM dados_mutuarios;
 ```
 
-| person_id_nulos_e_vazios | person_age_nulos_e_vazios | person_income_nulos_e_vazios |person_home_ownership_nulos_e_vazios | asperson_emp_length_nulos_e_vazios |
+| person_id_nulos_e_vazios | person_age_nulos_e_vazios | person_income_nulos_e_vazios |person_home_ownership_nulos_e_vazios | person_emp_length_nulos_e_vazios |
 |---|---|---|---|---|
-| 4 | 321 | 336 | 331 | 5571 |
+| 4 | 321 | 336 | 331 | 1254 |
 
 
 * % de vazios ou nulos
 ```sql
  SELECT
-    (SUM(ISNULL(person_id) +IF(person_id='', 1, 0)) / @total_de_clientes ) * 100 as percent_person_id,
-    (SUM(ISNULL(person_age) +IF(person_age='', 1, 0)) / @total_de_clientes ) * 100 as percent_person_age,
-    (SUM(ISNULL(person_income) +IF(person_income='', 1, 0)) / @total_de_clientes ) * 100 as percent_person_income,
-    (SUM(ISNULL(person_home_ownership) +IF(person_home_ownership='', 1, 0)) / @total_de_clientes ) * 100 as percent_person_home_ownership,
-    (SUM(ISNULL(person_emp_length) +IF(person_emp_length='', 1, 0)) / @total_de_clientes ) * 100 as percent_person_emp_length
+    (SUM(ISNULL(person_id) +IF(person_id LIKE '', 1, 0)) / @total_de_clientes ) * 100 as percent_person_id,
+    (SUM(ISNULL(person_age) +IF(person_age LIKE '', 1, 0)) / @total_de_clientes ) * 100 as percent_person_age,
+    (SUM(ISNULL(person_income) +IF(person_income LIKE '', 1, 0)) / @total_de_clientes ) * 100 as percent_person_income,
+    (SUM(ISNULL(person_home_ownership) +IF(person_home_ownership LIKE '', 1, 0)) / @total_de_clientes ) * 100 as percent_person_home_ownership,
+    (SUM(ISNULL(person_emp_length) +IF(person_emp_length LIKE '', 1, 0)) / @total_de_clientes ) * 100 as percent_person_emp_length
 FROM dados_mutuarios;
 ```
 | percent_person_id | percent_person_age | percent_person_income | percent_person_home_ownership | percent_person_emp_length |
 |---|---|---|---|---|
-| 0.0116 | 0.9307 | 0.9742 | 0.9597 | 16.1530 |
+| 0.0116 | 0.9307 | 0.9742 | 0.9597 | 3.6359 |
 
 
-### dados_mutuarios 
+### emprestimos 
+
+* Numero total de colunas
+
+```sql
+SET @total_de_emprestimos := (SELECT COUNT(*) FROM emprestimos);
+SELECT @total_de_emprestimos as numero_total_emprestimos;
+```
+| numero_total_emprestimos |
+|---|
+| 34489 |
+
 
 * Numero de vazios ou nulos
 ``` sql
 SELECT 
-SUM(ISNULL(loan_id) +IF(loan_id='', 1, 0) ) as loan_id_nulos_e_vazios,
-SUM(ISNULL(loan_intent) +IF(loan_intent='', 1, 0) ) as loan_intent_nulos_e_vazios,
-SUM(ISNULL(loan_grade) +IF(loan_grade='', 1, 0) ) as loan_grade_nulos_e_vazios,
-SUM(ISNULL(loan_int_rate) +IF(loan_int_rate='', 1, 0) ) as loan_int_rate_nulos_e_vazios,
-SUM(ISNULL(loan_status) +IF(loan_status='', 1, 0) ) as loan_status_nulos_e_vazios,
-SUM(ISNULL(loan_percent_income) +IF(loan_percent_income='', 1, 0) ) as loan_percent_income_nulos_e_vazios
+SUM(ISNULL(loan_id) +IF(loan_id LIKE '', 1, 0) ) as loan_id_nulos_e_vazios,
+SUM(ISNULL(loan_intent) +IF(loan_intent LIKE '', 1, 0) ) as loan_intent_nulos_e_vazios,
+SUM(ISNULL(loan_grade) +IF(loan_grade LIKE '', 1, 0) ) as loan_grade_nulos_e_vazios,
+SUM(ISNULL(loan_int_rate) +IF(loan_int_rate LIKE '', 1, 0) ) as loan_int_rate_nulos_e_vazios,
+SUM(ISNULL(loan_status) +IF(loan_status LIKE '', 1, 0) ) as loan_status_nulos_e_vazios,
+SUM(ISNULL(loan_percent_income) +IF(loan_percent_income LIKE '', 1, 0) ) as loan_percent_income_nulos_e_vazios
 FROM emprestimos;
 ```
 
 | loan_id_nulos_e_vazios | loan_intent_nulos_e_vazios | loan_grade_nulos_e_vazios | loan_int_rate_nulos_e_vazios | loan_status_nulos_e_vazios | loan_percent_income_nulos_e_vazios |
 |---|---|---|---|---|---|
-| 0 | 312 | 310 | 3627 | 27039 | 325 |
+| 0 | 312 | 310 | 3627 | 343 | 316 |
+
+* % de vazios ou nulos
+``` sql
+SELECT 
+(SUM(ISNULL(loan_id) +IF(loan_id LIKE '', 1, 0) )/ @total_de_emprestimos )*100 as percent_loan_id,
+(SUM(ISNULL(loan_intent) +IF(loan_intent LIKE '', 1, 0) )/ @total_de_emprestimos )*100 as percent_loan_intent,
+(SUM(ISNULL(loan_grade) +IF(loan_grade LIKE '', 1, 0) )/ @total_de_emprestimos )*100 as percent_loan_grade,
+(SUM(ISNULL(loan_int_rate) +IF(loan_int_rate LIKE '', 1, 0) )/ @total_de_emprestimos )*100 as percent_loan_int_rate,
+(SUM(ISNULL(loan_status) +IF(loan_status LIKE '', 1, 0) )/ @total_de_emprestimos )*100 as percent_loan_status,
+(SUM(ISNULL(loan_percent_income) +IF(loan_percent_income LIKE '', 1, 0) )/ @total_de_emprestimos )*100 as percent_loan_percent_income
+FROM emprestimos;
+```
+
+| percent_loan_id | percent_loan_intent | percent_loan_grade | percent_loan_int_rate | percent_loan_status | percent_loan_percent_income |
+|---|---|---|---|---|---|
+| 0.0000 | 0.9046 | 0.8988 | 10.5164 | 0.9945 | 0.9162 |
