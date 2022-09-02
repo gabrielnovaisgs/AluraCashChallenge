@@ -71,7 +71,16 @@ SELECT COLUMN_NAME AS Nome_da_coluna, DATA_TYPE AS tipo_de_dados FROM INFORMATIO
 
 ## Verificar quais são as inconsistências nos dados
 
-Primeiro vou verificar os dados_mutuarios 
+### dados_mutuarios 
+* Numero total de clientes
+```sql
+SET @total_de_clientes := (SELECT COUNT(*) FROM dados_mutuarios);
+SELECT @total_de_clientes as numero_total_clientes;
+```
+| numero_total_clientes |
+|---|
+| 34489 |
+
 * Numero de vazios ou nulos
 
 ```sql
@@ -88,6 +97,36 @@ FROM dados_mutuarios;
 |---|---|---|---|---|
 | 4 | 321 | 336 | 331 | 5571 |
 
-* Numero de nulos ou vazios para cada tabela
+
+* % de vazios ou nulos
+```sql
+ SELECT
+    (SUM(ISNULL(person_id) +IF(person_id='', 1, 0)) / @total_de_clientes ) * 100 as percent_person_id,
+    (SUM(ISNULL(person_age) +IF(person_age='', 1, 0)) / @total_de_clientes ) * 100 as percent_person_age,
+    (SUM(ISNULL(person_income) +IF(person_income='', 1, 0)) / @total_de_clientes ) * 100 as percent_person_income,
+    (SUM(ISNULL(person_home_ownership) +IF(person_home_ownership='', 1, 0)) / @total_de_clientes ) * 100 as percent_person_home_ownership,
+    (SUM(ISNULL(person_emp_length) +IF(person_emp_length='', 1, 0)) / @total_de_clientes ) * 100 as percent_person_emp_length
+FROM dados_mutuarios;
+```
+| percent_person_id | percent_person_age | percent_person_income | percent_person_home_ownership | percent_person_emp_length |
+|---|---|---|---|---|
+| 0.0116 | 0.9307 | 0.9742 | 0.9597 | 16.1530 |
 
 
+### dados_mutuarios 
+
+* Numero de vazios ou nulos
+``` sql
+SELECT 
+SUM(ISNULL(loan_id) +IF(loan_id='', 1, 0) ) as loan_id_nulos_e_vazios,
+SUM(ISNULL(loan_intent) +IF(loan_intent='', 1, 0) ) as loan_intent_nulos_e_vazios,
+SUM(ISNULL(loan_grade) +IF(loan_grade='', 1, 0) ) as loan_grade_nulos_e_vazios,
+SUM(ISNULL(loan_int_rate) +IF(loan_int_rate='', 1, 0) ) as loan_int_rate_nulos_e_vazios,
+SUM(ISNULL(loan_status) +IF(loan_status='', 1, 0) ) as loan_status_nulos_e_vazios,
+SUM(ISNULL(loan_percent_income) +IF(loan_percent_income='', 1, 0) ) as loan_percent_income_nulos_e_vazios
+FROM emprestimos;
+```
+
+| loan_id_nulos_e_vazios | loan_intent_nulos_e_vazios | loan_grade_nulos_e_vazios | loan_int_rate_nulos_e_vazios | loan_status_nulos_e_vazios | loan_percent_income_nulos_e_vazios |
+|---|---|---|---|---|---|
+| 0 | 312 | 310 | 3627 | 27039 | 325 |
