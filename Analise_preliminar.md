@@ -187,6 +187,7 @@ SUM(ISNULL(cb_person_cred_hist_length) +IF(cb_person_cred_hist_length LIKE '', 1
 
 
 * % de vazios ou nulos
+
 ``` sql
 SELECT 
 (SUM(ISNULL(cb_id) +IF(cb_id LIKE '', 1, 0) ) / @total_de_historicos)*100 as percent_cb_id,
@@ -197,3 +198,24 @@ SELECT
 | percent_cb_id_nulos| percent_cb_person_default_on_file_nulos| percent_cb_person_cred_hist_length_nulos|
 |---|---|---|
 | 0.0000 | 1.0641 | 0.0029 |
+
+### id
+``` sql
+SET @total_de_relacionamentos := (SELECT COUNT(*) FROM id);
+SELECT @total_de_relacionamentos as numero_total_de_relacionamentos;
+```
+| numero_total_de_relacionamentos |
+|---|
+| 14952 |
+
+```sql
+SELECT 
+SUM(ISNULL(cb_id) +IF(cb_id LIKE '', 1, 0) ) as cb_id_nulos_e_vazios,
+SUM(ISNULL(person_id) +IF(person_id LIKE '', 1, 0) ) as person_id_default_on_file_nulos_e_vazios,
+SUM(ISNULL(loan_id) +IF(loan_id LIKE '', 1, 0) ) as loan_id_nulos_e_vazios
+ FROM id;
+```
+
+| cb_id_nulos_e_vazios | person_id_default_on_file_nulos_e_vazios | loan_id_nulos_e_vazios |
+|---|---|---|
+| 0 | 0 | 0 |
