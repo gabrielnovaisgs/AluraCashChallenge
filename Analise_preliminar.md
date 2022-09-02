@@ -1,5 +1,7 @@
 # Analises preliminares
 
+Todos os comandos SQL podem ser encontrados no arquivo [Analise_preliminar.sql](./Analise_preliminar.sql)
+
 ## Entender quais informações o conjunto de dados possui
 O banco de dados é composto por 4 tabelas [descritas aqui](https://github.com/Mirlaa/Challenge-Data-Science-1ed/blob/main/Dados/README.md), onde temos acesso:
 
@@ -138,4 +140,4 @@ Número vazio
 * Removida as 4 colunas vazias da tabela dados_mutuarios
 
 # Unir as tabelas de acordo com os IDs traduzir os dados e exportar para CSV
-O arquivo exportado pode ser encontrado em [dados.csv]
+O arquivo exportado pode ser encontrado em [dados.csv](/Resources/dados.csv)
